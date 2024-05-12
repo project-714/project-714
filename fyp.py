@@ -19,7 +19,15 @@ def func(filename):
 
 @app.route('/', methods=['GET','POST'])
 def predict():
-    print("Hello World")
+    if 'audio' not in request.files:
+        return 'No file provided', 400
+
+    audio_file = request.files['audio']
+    if not audio_file.filename.lower().endswith('.wav'):
+        return 'Invalid file type, must be .wav', 400
+    preditction = func(audio_file)
+    print(preditction)
+    return preditction
 
 
 if __name__ == '__main__':
